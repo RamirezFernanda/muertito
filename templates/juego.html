@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Ahorcado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1 class="display-1">Ahorcado</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="../static/images/hangman_{{ session['intentos'] }}.png" alt=" " width="200" height="200">
+            </div>
+            <div class="col">
+                {% if intentos < 6 and estado_juego != True %}
+                <h2 class="display-5">Adivina adivinador:</h2>
+                <h2 class="display-5">{{espacio}}</h2>
+                <form action="/juego" method="post">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="letra" placeholder="" name="letra" maxlength="1">
+                        <label for="floatingInput">Adivina una letra</label>
+                    </div>
+                    <button type="submit" class="btn btn-success">Adivinar!</button>
+                    {% endif %}
+
+                    {% if intentos >= 6%}
+                    <h2 class="display-5">Has pedido,suerte para la siguiente :(</h2>
+                    <h2 class="display-5">La palabra era: {{ espacio }}</h2>
+                    <a href="/juegonuevo" class="btn btn-primary">Intentar de nuevo</a>
+                    {% endif %}
+
+                    {% if estado_juego == True %}
+                    <h2 class="display-5">Felicidades, has ganado!!!,</h2>
+                    <h2 class="display-5">La palabra era: {{ espacio }}</h2>
+                    <a href="/juegonuevo" class="btn btn-primary">Jugar de nuevo</a>
+                    {% endif %}
+                </form>
+            </div>
+            {% if usadas|length > 0 %}
+            <div class="row">
+                <h1 class="display-4">Letras usadas: </h1>
+                <h1 class="display-4">{{ usadas }}</h1>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
